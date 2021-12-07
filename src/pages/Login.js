@@ -72,7 +72,7 @@ const Login = (props) => {
               로그인
             </Text>
             <Grid padding="16px 0px" height="20%">
-              <form action="/api/login" method="post">
+              <form action="http://3.37.36.119/api/login" method="post">
                 <Input
                   type="text"
                   label="아이디"
