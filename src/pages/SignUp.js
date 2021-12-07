@@ -51,7 +51,8 @@ const SignUp = (props) => {
       url: 'http://3.37.36.119/api/signup',
       data: {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        passwordCheck : 'password',
       }
     }).then((response) => {
       // 성공 일 때 200 뜸
