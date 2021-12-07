@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Text, Grid } from "./index";
 
 const Input = (props) => {
-  
   const {
     label,
     placeholder,
@@ -71,6 +70,7 @@ Input.defaultProps = {
   is_submit: false,
   onSubmit: () => {},
   _onChange: () => {},
+  _onBlur: () => {},
 };
 
 const ElInput = styled.input`

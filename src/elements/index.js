@@ -4,5 +4,6 @@ import Button from "./Button";
 import Grid from "./Grid";
 import Input from "./Input";
 import Text from "./Text";
+import Span from "./Span";
 
-export { Button, Grid, Input, Text };
+export { Button, Grid, Input, Text, Span };
