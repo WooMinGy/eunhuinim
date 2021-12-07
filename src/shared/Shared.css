@@ -1,0 +1,6 @@
+.scroll{
+  -ms-overflow-style: none;
+}
+.scroll::-webkit-scrollbar{
+ display:none;
+}
