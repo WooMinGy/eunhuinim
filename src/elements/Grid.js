@@ -59,7 +59,7 @@ const GridBox = styled.div`
     ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
     ${(props) =>
     props.is_flex
-      ? `display: flex; align-items: center; justify-content: space-between; `
+      ? `display: flex; align-items: center; justify-content: space-evenly; `
       : ""}
     ${(props) => (props.center ? `text-align: center;` : "")}
     ${(props) => (props.flexFlow ? "flex-flow : row wrap;" : "")}
