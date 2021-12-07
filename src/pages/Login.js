@@ -31,7 +31,7 @@ const Login = (props) => {
   const login = () => {
     axios({
       method: "post",
-      url: "http://3.37.36.119/api/login",
+      url: "http://3.37.36.119/user/login",
       data: {
         username: "username",
         password: "password",
@@ -47,7 +47,7 @@ const Login = (props) => {
         }
       })
       .catch((err) => {
-        console.log("회원가입 실패", err);
+        console.log("로그인 실패", err);
       });
   };
 

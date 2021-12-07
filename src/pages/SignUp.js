@@ -13,7 +13,6 @@ import { useHistory } from "react-router";
 import axios from "axios";
 
 const SignUp = (props) => {
-
   const history = useHistory();
   const dispatch = useDispatch();
   const [modalIsOpen, setModalIsOpen] = React.useState(
@@ -47,23 +46,25 @@ const SignUp = (props) => {
   // 회원가입 동기 처리
   const signUp = () => {
     axios({
-      method: 'post',
-      url: 'http://3.37.36.119/api/signup',
+      method: "post",
+      url: "http://3.37.36.119/api/signup",
       data: {
-        username: 'username',
-        password: 'password',
-        passwordCheck : 'password',
-      }
-    }).then((response) => {
-      // 성공 일 때 200 뜸
-      if(response.status === 200){
-        window.alert("회원가입 성공")
-        setModalIsOpen(false) 
-        history.push('/')
-      }
-    }).catch((err)=>{
-      console.log("회원가입 실패", err)
+        username: "username",
+        password: "password",
+        passwordCheck: "password",
+      },
     })
+      .then((response) => {
+        // 성공 일 때 200 뜸
+        if (response.status === 200) {
+          window.alert("회원가입 성공");
+          setModalIsOpen(false);
+          history.push("/");
+        }
+      })
+      .catch((err) => {
+        console.log("회원가입 실패", err);
+      });
   };
 
   /* 아이디 형식 체크 */
@@ -89,9 +90,6 @@ const SignUp = (props) => {
   //   window.alert("비밀번호가 일치하지 않습니다.");
   //   return;
   // }
-
-  /* 회원가입 미들웨어 */
-  // dispatch(userActions.signupAPI(userInfo));
 
   return (
     <React.Fragment>
