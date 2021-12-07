@@ -40,7 +40,6 @@ const Login = (props) => {
           window.alert("로그인 성공");
           setModal(false);
           props.setIsLogin(true);
-          history.push('/')
         }
       })
       .catch((err) => {
