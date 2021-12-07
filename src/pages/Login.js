@@ -37,6 +37,7 @@ const Login = (props) => {
       .then((response) => {
         // 성공 일 때 200 뜸
         if (response.status === 200) {
+          console.log(response)
           window.alert("로그인 성공");
           setModal(false);
           props.setIsLogin(true);
