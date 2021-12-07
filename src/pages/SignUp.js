@@ -31,7 +31,10 @@ const SignUp = (props) => {
 
   /* disabled 체크 */
   const checkActive = () => {
-    username !== "" && password !== "" && passwordCheck !== "" && password === passwordCheck
+    username !== "" &&
+    password !== "" &&
+    passwordCheck !== "" &&
+    password === passwordCheck
       ? setActive(false)
       : setActive(true);
   };
@@ -68,6 +71,7 @@ const SignUp = (props) => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={modalOff}
+        ariaHideApp={false}
         style={{
           // inLine Styles
           content: {
@@ -83,47 +87,47 @@ const SignUp = (props) => {
           </Text>
           <Grid padding="16px 0px" height="20%">
             <form action="/api/signUp" method="post">
-            <Input
-              label="아이디"
-              placeholder="아이디를 입력하세요."
-              type="text"
-              value={username}
-              _onChange={(e) => {
-                setId(e.target.value);
-              }}
-              _onKeyUp={checkActive}
-            />
+              <Input
+                label="아이디"
+                placeholder="아이디를 입력하세요."
+                type="text"
+                value={username}
+                _onChange={(e) => {
+                  setId(e.target.value);
+                }}
+                _onKeyUp={checkActive}
+              />
 
-            <Input
-              label="비밀번호"
-              placeholder="비밀번호를 입력하세요."
-              type="password"
-              value={password}
-              _onChange={(e) => {
-                setPwd(e.target.value);
-              }}
-              _onKeyUp={checkActive}
-            />
+              <Input
+                label="비밀번호"
+                placeholder="비밀번호를 입력하세요."
+                type="password"
+                value={password}
+                _onChange={(e) => {
+                  setPwd(e.target.value);
+                }}
+                _onKeyUp={checkActive}
+              />
 
-            <Input
-              label="비밀번호 확인"
-              placeholder="비밀번호를 다시 입력하세요."
-              type="password"
-              value={passwordCheck}
-              _onChange={(e) => {
-                setPwdCheck(e.target.value);
-              }}
-              _onKeyUp={checkActive}
-            />
+              <Input
+                label="비밀번호 확인"
+                placeholder="비밀번호를 다시 입력하세요."
+                type="password"
+                value={passwordCheck}
+                _onChange={(e) => {
+                  setPwdCheck(e.target.value);
+                }}
+                _onKeyUp={checkActive}
+              />
 
-            <Button
-              text="회원가입하기"
-              className={!active ? "activeBtn" : "unActiveBtn"}
-              width="18vw"
-              margin="3% 0px 3% 0px"
-              _onClick={SignUp}
-              disabled={active}
-            ></Button>
+              <Button
+                text="회원가입하기"
+                className={!active ? "activeBtn" : "unActiveBtn"}
+                width="18vw"
+                margin="3% 0px 3% 0px"
+                _onClick={SignUp}
+                disabled={active}
+              ></Button>
             </form>
           </Grid>
         </Grid>
