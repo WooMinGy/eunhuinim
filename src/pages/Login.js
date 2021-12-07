@@ -4,8 +4,6 @@
 import React from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
-import { useSelector, useDispatch } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user.js";
 
 import { Grid, Button, Input, Text } from "../elements/index";
 import SignUp from "../pages/SignUp";
@@ -19,7 +17,6 @@ const Login = (props) => {
   const [active, setActive] = React.useState(true); // disabled가 활성화인 지 비활성화인 지
   const [signUpModal, setSignUpModal] = React.useState(false); // 로그인창인 지 회원가입 창인 지
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
   // disabled 체크
@@ -33,8 +30,8 @@ const Login = (props) => {
       method: "post",
       url: "http://3.37.36.119/user/login",
       data: {
-        username: "username",
-        password: "password",
+        username: id,
+        password: pwd,
       }
     })
       .then((response) => {

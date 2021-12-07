@@ -3,8 +3,6 @@
 // *** 패키지 import
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { useDispatch } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
 
 import { Grid, Button, Input, Text } from "../elements";
 import { isId, isPassword } from "../shared/regExp.js";
@@ -14,7 +12,6 @@ import axios from "axios";
 
 const SignUp = (props) => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const [modalIsOpen, setModalIsOpen] = React.useState(
     props.modal ? true : false
   ); // 모달창 열렸는지 여부
@@ -112,60 +109,40 @@ const SignUp = (props) => {
             회원가입
           </Text>
           <Grid padding="16px 0px" height="20%">
-            <form action="/api/signUp" method="post">
-              <Input
-                label="아이디"
-                placeholder="아이디를 입력하세요."
-                type="text"
-                value={username}
-                _onChange={(e) => {
-                  setId(e.target.value);
-                }}
-                _onKeyUp={checkActive}
-              />
-              {/* <form action="http://3.37.36.119/api/signup" method="post"> */}
-              <Input
-                label="아이디"
-                placeholder="아이디를 입력하세요."
-                type="text"
-                value={username}
-                _onChange={(e) => {
-                  setId(e.target.value);
-                }}
-                _onKeyUp={checkActive}
-              />
+            {/* <form action="http://3.37.36.119/api/signup" method="post"> */}
+            <Input
+              label="아이디"
+              placeholder="아이디를 입력하세요."
+              type="text"
+              value={username}
+              _onChange={(e) => {
+                setId(e.target.value);
+              }}
+              _onKeyUp={checkActive}
+            />
 
-              <Input
-                label="비밀번호"
-                placeholder="비밀번호를 입력하세요."
-                type="password"
-                value={password}
-                _onChange={(e) => {
-                  setPwd(e.target.value);
-                }}
-                _onKeyUp={checkActive}
-              />
+            <Input
+              label="비밀번호"
+              placeholder="비밀번호를 입력하세요."
+              type="password"
+              value={password}
+              _onChange={(e) => {
+                setPwd(e.target.value);
+              }}
+              _onKeyUp={checkActive}
+            />
 
-              <Input
-                label="비밀번호 확인"
-                placeholder="비밀번호를 다시 입력하세요."
-                type="password"
-                value={passwordCheck}
-                _onChange={(e) => {
-                  setPwdCheck(e.target.value);
-                }}
-                _onKeyUp={checkActive}
-              />
+            <Input
+              label="비밀번호 확인"
+              placeholder="비밀번호를 다시 입력하세요."
+              type="password"
+              value={passwordCheck}
+              _onChange={(e) => {
+                setPwdCheck(e.target.value);
+              }}
+              _onKeyUp={checkActive}
+            />
 
-              <Button
-                text="회원가입하기"
-                className={!active ? "activeBtn" : "unActiveBtn"}
-                width="18vw"
-                margin="3% 0px 3% 0px"
-                _onClick={SignUp}
-                disabled={active}
-              ></Button>
-            </form>
             <Button
               text="회원가입하기"
               className={!active ? "activeBtn" : "unActiveBtn"}
