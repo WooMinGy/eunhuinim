@@ -2,46 +2,45 @@
 
 // *** 패키지 import
 import React from "react";
+import { useSelector } from "react-redux";
 
 import { Grid, Button, Text, Input } from "../elements/index";
 
 const CommentList = (props) => {
+  const commentInfo = useSelector((state) => state.post.comments);
+
   return (
     <React.Fragment>
-      <CommentItem></CommentItem>
+      {commentInfo.map((p) => {
+        return <CommentItem key={p.commentId} {...p}></CommentItem>;
+      })}
     </React.Fragment>
   );
 };
 
 const CommentItem = (props) => {
-  const { post_id, contents, insert_dt } = props;
+  const { commentId, comment, createdAt } = props;
   return (
     <React.Fragment>
-      <Grid is_flex>
+      <Grid is_flex margin="auto" width="70%">
         <Grid>
           <Text bold>익명</Text>
         </Grid>
         <Grid>
-          <Text margin="0px">{contents}</Text>
+          <Text margin="0px">{comment}</Text>
         </Grid>
         <Grid>
-          <Text margin="0px">{insert_dt}</Text>
+          <Text margin="0px">{createdAt}</Text>
         </Grid>
       </Grid>
     </React.Fragment>
   );
 };
 
-CommentList.defaultProps = {
-  post_id: null,
-};
-
 CommentItem.defaultProps = {
-  user_name: "mean0",
-  user_id: "",
-  post_id: 1,
-  contents: "귀여운 고양이네요!",
-  insert_dt: "2021-01-01 19:00:00",
+  commentId: 1,
+  comment: "기본 댓글 내용",
+  createdAt: "날짜",
 };
 
 export default CommentList;

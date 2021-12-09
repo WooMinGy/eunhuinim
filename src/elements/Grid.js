@@ -16,9 +16,11 @@ const Grid = (props) => {
     center,
     _onClick,
     flexFlow,
+    justifyContent,
   } = props;
 
   const styles = {
+    justifyContent: justifyContent,
     is_flex: is_flex,
     width: width,
     margin: margin,
@@ -38,10 +40,10 @@ const Grid = (props) => {
 };
 
 Grid.defaultProps = {
+  justifyContent: false,
   chidren: null,
   is_flex: false,
   width: "100%",
-  height: "100%",
   padding: false,
   margin: false,
   bg: false,
@@ -63,6 +65,10 @@ const GridBox = styled.div`
       : ""}
     ${(props) => (props.center ? `text-align: center;` : "")}
     ${(props) => (props.flexFlow ? "flex-flow : row wrap;" : "")}
+    ${(props) =>
+    props.justifyContent
+      ? "justify-content: flex-start;"
+      : "justify-content: space-evenly;"}
 `;
 
 export default Grid;

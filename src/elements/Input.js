@@ -18,7 +18,7 @@ const Input = (props) => {
 
   if (multiLine) {
     return (
-      <Grid>
+      <>
         {label && <Text margin="0px">{label}</Text>}
         <ElTextarea
           rows={10}
@@ -27,13 +27,13 @@ const Input = (props) => {
           onKeyUp={_onKeyUp}
           onChange={_onChange}
         ></ElTextarea>
-      </Grid>
+      </>
     );
   }
 
   return (
     <React.Fragment>
-      <Grid>
+      <>
         {label && <Text margin="0px">{label}</Text>}
         {is_submit ? (
           <ElInput
@@ -56,7 +56,7 @@ const Input = (props) => {
             onKeyUp={_onKeyUp}
           />
         )}
-      </Grid>
+      </>
     </React.Fragment>
   );
 };

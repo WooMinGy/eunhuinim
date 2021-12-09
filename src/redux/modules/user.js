@@ -2,6 +2,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
+import { apis } from "../../shared/api";
 
 import axios from "axios";
 
@@ -9,7 +10,6 @@ import axios from "axios";
 const LOG_OUT = "LOG_OUT";
 const GET_USER = "GET_USER";
 const SET_USER = "SET_USER";
-const IS_LOGIN = "IS_LOGIN";
 
 // *** 액션 생성 함수
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
@@ -30,26 +30,23 @@ const initialState = {
 // *** 로그인 여부 확인
 const loginCheckFB = () => {
   return function (dispatch, getState, { history }) {
-    axios.get("http://3.37.36.119/api/islogin").then((response) => {
-      if (response) {
-        const is_login = true;
-        dispatch(setUser(is_login, response.userInfo.username));
-      }
-    }).catch((err)=>{
-      console.log("로그인 여부 확인 실패");
-    })
+    console.log("로그인 여부 확인");
+    const token = localStorage.getItem("user_token");
 
-    // const user = getState().user.is_login;
+    axios
+      .get("http://3.37.36.119/api/islogin", {
+        headers: { Authorization: token },
+      })
+      .then((response) => {
+        const is_login = true; // 로그인 상태
+        const username = response.data.userInfo.username; // 사용자 정보
+        localStorage.setItem("username", username);
 
-    // if (user === false) {
-    //   console.log("로그인 여부 확인 실패");
-    //   return;
-    // }
-
-    // const is_login = true;
-    // const username = user.username;
-    // dispatch(setUser(is_login, username));
-    // console.log("로그인 여부 확인 성공");
+        dispatch(setUser(is_login, username));
+      })
+      .catch((err) => {
+        console.log("로그인 여부 확인 실패", err);
+      });
   };
 };
 
@@ -57,21 +54,20 @@ const loginCheckFB = () => {
 const loginFB = (username, password) => {
   return function (dispatch, getState, { history }) {
     axios // 로그인 요청
-      .post("http://3.37.36.119/api/login", { username: username, password: password })
+      .post("http://3.37.36.119/user/login", {
+        username: username,
+        password: password,
+      })
       .then((response) => {
-        axios.get("/api/isLogin").then((reponse) => { // 로그인 여부 확인
-          dispatch(setUser({ username: username, is_login: true }));
-          console.log("로그인 성공");
-        }).catch((err) => {
-            console.log("로그인 요청 실패", err)
-        });
+        const user_token = response.headers.authorization;
+        localStorage.setItem("user_token", user_token);
+        window.alert("로그인 되셨습니다.");
+        window.location.reload();
       })
       .catch((err) => {
         console.log("로그인 요청 실패", err);
+        window.alert("아이디/비밀번호를 확인 해주세요");
       });
-
-    // const is_login = true;
-    // dispatch(setUser({ is_login, username }));
   };
 };
 
@@ -81,56 +77,41 @@ const logoutFB = () => {
     axios // 로그아웃
       .get("http://3.37.36.119/api/logout")
       .then((reponse) => {
-        dispatch(logOut())
+        dispatch(logOut());
         console.log("로그아웃 성공");
+        window.location.reload();
       })
       .catch((err) => {
-        console.log("로그아웃 실패")
+        console.log("로그아웃 실패");
       });
   };
 };
 
 // *** 회원가입
-// const signupAPI = (username, password) => {
-//   return function (dispatch, getState, { history }) {
-
-//     axios.get("http://3.37.36.119/api/join").then((response)=>{
-//       dispatch(signUp())
-//       console.log("회원가입 성공")
-//     }).catch((err)=>{
-//       console.log("회원가입 실패!")
-//     })
-//     apis
-//       .createUser({
-//         username: username,
-//         password: password,
-//       })
-//       .then(() => {
-//         console.log("회원가입 성공");
-//         window.alert("회원가입 성공!");
-//         history.push("/login")
-//       })
-//       .catch((err) => {
-//         console.log("이미 존재하는 아이디입니다.");
-//         window.alert("이미 존재하는 아이디입니다.");
-//         console.log(err.code, err.message);
-//       });
-//   };
-// };
+const signUpDB = (username, password, passwordCheck) => {
+  return function (dispatch, getState, { history }) {
+    apis
+      .signup(username, password, passwordCheck)
+      .then((res) => {
+        window.alert("회원가입 되셨습니다.");
+      })
+      .catch((err) => {
+        window.alert("이미 존재하는 아이디 또는 이메일입니다.");
+      });
+  };
+};
 
 // *** 리듀서
 export default handleActions(
   {
     [SET_USER]: (state, action) => {
       produce(state, (draft) => {
-        setCookie("is_login", "success");
         draft.is_login = action.payload.is_login;
         draft.username = action.payload.username;
       });
     },
     [LOG_OUT]: (state, action) => {
       produce(state, (draft) => {
-        deleteCookie("is_login");
         draft.username = null;
         draft.is_login = false;
       });
@@ -147,6 +128,7 @@ const actionCreators = {
   loginFB,
   logoutFB,
   loginCheckFB,
+  signUpDB,
 };
 
 export { actionCreators };

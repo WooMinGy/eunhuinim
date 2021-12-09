@@ -92,6 +92,7 @@ const SignUp = (props) => {
   // 비밀번호 일치 여부
   const isSamePwd = (e) => {
     setPwdCheck(e.target.value);
+    const regPwd = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{3,20}$/;
     const SamePwdCurrent = e.target.value;
 
     if (password === SamePwdCurrent) {
@@ -103,6 +104,15 @@ const SignUp = (props) => {
     }
   };
 
+  // signUpDB 실행!
+  //  -> 보통은 다른 함수 안에서 실행하고 onClick에 넣어줬는데 그렇게 안해서 400이 뜨나?
+  const signUpCheck = () => {
+    dispatch(userActions.signUpDB(username, password, passwordCheck));
+    setModalIsOpen(false);
+    props.setSignUpModal(false);
+    props.setLoginModal(true); // 회원가입 성공 시 로그인 모달창 띄움
+  };
+
   // 뷰
   return (
     <React.Fragment>
@@ -110,7 +120,6 @@ const SignUp = (props) => {
         isOpen={modalIsOpen}
         ariaHideApp={false}
         onRequestClose={modalOff}
-        ariaHideApp={false}
         style={{
           // inLine Styles
           content: {
@@ -121,66 +130,72 @@ const SignUp = (props) => {
         }}
       >
         <Grid padding="16px" center>
-          <Text size="3vw" margin="6vh" bold>
+          <Text size="3vw" bold>
             회원가입
           </Text>
           <Grid padding="16px 0px" height="20%">
-            <form action="http://3.37.36.119/api/signup" method="post">
-              <Input
-                label="아이디"
-                placeholder="아이디를 입력하세요."
-                type="text"
-                value={username}
-                _onChange={idCheck}
-                _onKeyUp={checkActive}
-              />
-              {username.length > 0 && (
-                <Span size="3px" className={`${isId ? "success" : "error"}`}>
-                  {idMessage}
-                </Span>
-              )}
-              {/* <form action="http://3.37.36.119/api/signup" method="post"> */}
+            {/* <form action="http://3.37.36.119/api/signup" method="post"> */}
+            <Input
+              label="아이디"
+              placeholder="아이디를 입력하세요."
+              type="text"
+              value={username}
+              _onChange={idCheck}
+              _onKeyUp={checkActive}
+            />
+            <br />
+            {username.length > 0 && (
+              <Span size="3px" className={`${isId ? "success" : "error"}`}>
+                {idMessage}
+              </Span>
+            )}
+            <br />
+            {/* <form action="http://3.37.36.119/api/signup" method="post"> */}
 
-              <Input
-                label="비밀번호"
-                placeholder="비밀번호를 입력하세요."
-                type="password"
-                value={password}
-                _onChange={pwdCheck}
-                _onKeyUp={checkActive}
-              />
-              {password.length > 0 && (
-                <Span size="3px" className={`${isPwd ? "success" : "error"}`}>
-                  {pwdMessage}
-                </Span>
-              )}
+            <Input
+              label="비밀번호"
+              placeholder="비밀번호를 입력하세요."
+              type="password"
+              value={password}
+              _onChange={pwdCheck}
+              _onKeyUp={checkActive}
+            />
+            <br />
+            {password.length > 0 && (
+              <Span size="3px" className={`${isPwd ? "success" : "error"}`}>
+                {pwdMessage}
+              </Span>
+            )}
+            <br />
 
-              <Input
-                label="비밀번호 확인"
-                placeholder="비밀번호를 다시 입력하세요."
-                type="password"
-                value={passwordCheck}
-                _onChange={isSamePwd}
-                _onKeyUp={checkActive}
-              />
-              {passwordCheck.length > 0 && (
-                <Span
-                  size="3px"
-                  className={`${isPwdCheck ? "success" : "error"}`}
-                >
-                  {pwdCheckMessage}
-                </Span>
-              )}
+            <Input
+              label="비밀번호 확인"
+              placeholder="비밀번호를 다시 입력하세요."
+              type="password"
+              value={passwordCheck}
+              _onChange={isSamePwd}
+              _onKeyUp={checkActive}
+            />
+            <br />
+            {passwordCheck.length > 0 && (
+              <Span
+                size="3px"
+                className={`${isPwdCheck ? "success" : "error"}`}
+              >
+                {pwdCheckMessage}
+              </Span>
+            )}
+            <br />
 
-              <Button
-                text="회원가입하기"
-                className={!active ? "activeBtn" : "unActiveBtn"}
-                width="18vw"
-                margin="3% 0px 3% 0px"
-                _onClick={SignUp}
-                disabled={active}
-              ></Button>
-            </form>
+            <Button
+              text="회원가입하기"
+              className={!active ? "activeBtn" : "unActiveBtn"}
+              width="18vw"
+              margin="3% 0px 3% 0px"
+              _onClick={signUpCheck}
+              disabled={active}
+            ></Button>
+            {/* </form> */}
             {/* </form> */}
           </Grid>
         </Grid>

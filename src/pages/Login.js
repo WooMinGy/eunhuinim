@@ -4,6 +4,8 @@
 import React from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 import { Grid, Button, Input, Text } from "../elements/index";
 import SignUp from "../pages/SignUp";
@@ -11,41 +13,26 @@ import { useHistory } from "react-router";
 import axios from "axios";
 
 const Login = (props) => {
-  const [id, setId] = React.useState(""); // 아이디
-  const [pwd, setPwd] = React.useState(""); // 비밀번호
+  const [username, setId] = React.useState(""); // 아이디
+  const [password, setPwd] = React.useState(""); // 비밀번호
   const [modal, setModal] = React.useState(props.modal ? true : false); // 모달창이 열렸는 지 닫혔는 지
   const [active, setActive] = React.useState(true); // disabled가 활성화인 지 비활성화인 지
   const [signUpModal, setSignUpModal] = React.useState(false); // 로그인창인 지 회원가입 창인 지
 
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   // disabled 체크
   const checkActive = () => {
-    id !== "" && pwd !== "" ? setActive(false) : setActive(true);
+    username !== "" && password !== "" ? setActive(false) : setActive(true);
   };
 
   // 로그인 버튼 클릭 시
   const login = () => {
-    axios({
-      method: "post",
-      url: "http://3.37.36.119/user/login",
-      data: {
-        username: id,
-        password: pwd,
-      },
-    })
-      .then((response) => {
-        // 성공 일 때 200 뜸
-        if (response.status === 200) {
-          console.log(response);
-          window.alert("로그인 성공");
-          setModal(false);
-          props.setIsLogin(true);
-        }
-      })
-      .catch((err) => {
-        console.log("로그인 실패", err);
-      });
+    dispatch(userActions.loginFB(username, password));
+    setModal(false);
+    props.setLoginModal(false);
+    props.setSignUpModal(false);
+    // ★ loginFB에서 localStorage.setItem을 한 뒤에 localStorage.getItem을 했는 데 null이 뜸
   };
 
   // 회원가입 버튼 클릭 시
@@ -85,7 +72,7 @@ const Login = (props) => {
           }}
         >
           <Grid padding="16px" center>
-            <Text size="3vw" margin="6vh" bold>
+            <Text size="3vw" bold>
               로그인
             </Text>
             <Grid padding="16px 0px" height="20%">
@@ -94,7 +81,7 @@ const Login = (props) => {
                 type="text"
                 label="아이디"
                 placeholder="아이디를 입력 해주세요"
-                value={id}
+                value={username}
                 _onChange={(e) => {
                   setId(e.target.value);
                 }}
@@ -104,7 +91,7 @@ const Login = (props) => {
                 type="password"
                 label="비밀번호"
                 placeholder="비밀번호를 입력 해주세요"
-                value={pwd}
+                value={password}
                 _onChange={(e) => {
                   setPwd(e.target.value);
                 }}

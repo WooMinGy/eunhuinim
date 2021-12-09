@@ -5,7 +5,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
 // *** 컴포넌트 또는 CSS import
@@ -18,14 +18,14 @@ import PostDetail from "../pages/PostDetail";
 import Feed from "../pages/Feed";
 
 function App() {
+  const user_token = localStorage.getItem("user_token") ? true : false;
+  const dispatch = useDispatch();
 
-  // webSecurty가 세션에 유저 정보를 등록 해준다.
-  // const is_session = sessionStorage.getItem("세션 이름") ? true : false;
-  // const dispatch = useDispatch();
-
-  // React.useEffect(()=>{
-  //   dispatch(userActions.loginCheckFB());
-  // })
+  React.useEffect(() => {
+    if (user_token) {
+      dispatch(userActions.loginCheckFB());
+    }
+  });
 
   return (
     <div className="App">
@@ -34,7 +34,8 @@ function App() {
         <Route path="/login" exact component={Login}></Route>
         <Route path="/signUp" exact component={SignUp}></Route>
         <Route path="/feed" exact component={Feed}></Route>
-        <Route path="/postDetail" exact component={PostDetail}></Route>
+        <Route path="/post" exact component={PostDetail}></Route>
+        <Route path="/post/:postId" exact component={PostDetail}></Route>
         <Route path="/postWrite" exact component={PostWrite}></Route>
       </ConnectedRouter>
     </div>

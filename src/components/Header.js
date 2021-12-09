@@ -10,18 +10,13 @@ import { Grid, Button, Text } from "../elements/index";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 
-import { getCookie } from "../shared/Cookie";
-
 const Header = (props) => {
-
   const history = useHistory();
   const dispatch = useDispatch();
-  const is_cookie = getCookie("is_login");
-  // const is_session = sessionStorage.getItem("세션 이름") ? true : false;
+  const user_token = localStorage.getItem("user_token") ? true : false;
 
   const [loginModal, setLoginModal] = React.useState(false);
   const [signUpModal, setSignUpModal] = React.useState(false);
-  const [isLogin, setIsLogin] = React.useState(is_cookie);
 
   const loginModalOpen = () => {
     setLoginModal(true);
@@ -33,17 +28,18 @@ const Header = (props) => {
 
   const logOut = () => {
     dispatch(userActions.logoutFB());
-    setIsLogin(false);
+    localStorage.removeItem("user_token");
     window.alert("로그아웃 하셨습니다.");
+    window.location.reload(); // ★ 임시
   };
 
-  if (isLogin) {
+  if (user_token) {
     return (
       <React.Fragment>
         <Grid is_flex padding="4px 16px">
-          <Grid _onClick={() => (window.location.href = "/")}>
-            <Text margin="0px" size="24px" bold>
-              로고
+          <Grid _onClick={() => history.push("/")}>
+            <Text margin="0px" size="20px" bold>
+              익명의멘탈케어
             </Text>
           </Grid>
 
@@ -80,7 +76,6 @@ const Header = (props) => {
                 modal={loginModal}
                 setLoginModal={setLoginModal}
                 setSignUpModal={setSignUpModal}
-                setIsLogin={setIsLogin}
               ></Login>
             )
             // 기존 코드 loginModal && <Login modal={loginModal}></Login>에서는
@@ -99,6 +94,7 @@ const Header = (props) => {
           {signUpModal && (
             <SignUp
               modal={signUpModal}
+              setLoginModal={setLoginModal}
               setSignUpModal={setSignUpModal}
             ></SignUp>
           )}

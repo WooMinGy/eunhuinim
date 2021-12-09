@@ -7,25 +7,25 @@ import { Grid, Button, Text, Input } from "../elements/index";
 import Card from "react-bootstrap/Card";
 
 const Post = (props) => {
-  const { noWrap } = props;
+  const { noWrap, _onClick } = props;
 
   if (noWrap) {
     return (
       <div
         style={{
-          width:"100%",
-          padding:"1% 0px 0px 0px",
-          height:"30px",
+          width: "100%",
+          padding: "1% 0px 0px 0px",
+          marginTop: "1%",
+          height: "30px",
           border: "1px solid black",
-          marginTop: "2%",
         }}
       >
-        <Grid is_flex>
+        <Grid _onClick={_onClick} is_flex>
           <Grid>
-            <Text margin="0px">제목</Text>
+            <Text margin="0px">{props.comment}</Text>
           </Grid>
           <Grid>
-            <Text margin="0px">내용</Text>
+            <Text margin="0px">{props.createdAt}</Text>
           </Grid>
         </Grid>
       </div>
@@ -39,13 +39,14 @@ const Post = (props) => {
         style={{
           width: "18rem",
           height: "15rem",
+          margin: "0% 1% 1% 1%",
           border: "1px solid black",
-          marginTop: "2%",
         }}
+        onClick={_onClick}
       >
-        <Card.Header>제목</Card.Header>
+        <Card.Header>{props.title}</Card.Header>
         <Card.Body>
-          <Card.Text>내용</Card.Text>
+          <Card.Text>{props.content}</Card.Text>
         </Card.Body>
       </Card>
       <br />

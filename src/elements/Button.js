@@ -2,7 +2,19 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { text, _onClick, is_float, children, margin, width, className, padding, disabled } = props;
+  const {
+    cursor,
+    height,
+    text,
+    _onClick,
+    is_float,
+    children,
+    margin,
+    width,
+    className,
+    padding,
+    disabled,
+  } = props;
 
   if (is_float) {
     return (
@@ -13,14 +25,21 @@ const Button = (props) => {
   }
 
   const styles = {
+    cursor: cursor,
+    height: height,
     margin: margin,
     width: width,
-    padding : padding,
+    padding: padding,
   };
 
   return (
     <React.Fragment>
-      <ElButton className={className} {...styles} onClick={_onClick} disabled={disabled}>
+      <ElButton
+        className={className}
+        {...styles}
+        onClick={_onClick}
+        disabled={disabled}
+      >
         {text ? text : children}
       </ElButton>
     </React.Fragment>
@@ -35,21 +54,24 @@ Button.defaultProps = {
   is_float: false,
   margin: false,
   width: "100%",
-  padding : "12px 0px",
-  disabled:false,
+  height: "10%",
+  padding: "12px 0px",
+  disabled: false,
+  cursor: "pointer",
 };
 
 const ElButton = styled.button`
+  height: ${(props) => props.height};
   width: ${(props) => props.width};
   background-color: ${(props) =>
-  props.className === "unActiveBtn" ? "gray" : "black"};
+    props.className === "unActiveBtn" ? "gray" : "black"};
   color: #ffffff;
   padding: ${(props) => props.padding};
   box-sizing: border-box;
   border: none;
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
+  cursor: "pointer"
 `;
-
 
 const FloatButton = styled.button`
   width: 50px;
@@ -66,6 +88,7 @@ const FloatButton = styled.button`
   vertical-align: middle;
   border: none;
   border-radius: 50px;
+  cursor: "pointer";
 `;
 
 export default Button;
